@@ -83,6 +83,17 @@ def process_video(video_path, annotation_path, annotation_fps=1.0):
     cv2.destroyAllWindows()
 
 def main():
+    #If data needs to be pulled
+    # client = Client.from_api_key(V7_KEY)
+    # dataset = client.get_remote_dataset('eos')
+    # release = dataset.get_release()
+    
+    # if release:
+    #     print("Release found. Pulling annotations...")
+    #     dataset.pull(release=release)
+    #     print("Annotations pulled successfully.")
+    #     return
+
     video_files = [f for f in os.listdir(video_folder) if f.endswith('.MP4')]
 
     for video_file in video_files:
