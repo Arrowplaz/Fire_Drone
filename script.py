@@ -78,7 +78,6 @@ def preprocess(video_path, output_path='output.mp4', show=False):
     # Define the codec and create VideoWriter object for MP4
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # MP4 codec
     out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
-    subtracted_frames = []
 
     frame_idx = 0
     while True:
@@ -93,7 +92,6 @@ def preprocess(video_path, output_path='output.mp4', show=False):
         # Apply the mask to the original frame
         fgmask_3ch = cv2.cvtColor(fgmask, cv2.COLOR_GRAY2BGR)  # Make it 3 channels
         subtracted = cv2.bitwise_and(frame, fgmask_3ch)
-        subtracted_frames.append(subtracted)
 
         print(frame_idx)
         
@@ -144,12 +142,11 @@ def main():
 
         if os.path.exists(annotation_path):
             print(f"➡️ Processing single frame from {video_file}")
-            frames = preprocess(video_path, annotation_path)
+            preprocess(video_path, annotation_path)
         else:
             print(f"⚠️ No matching annotation file for {video_file}, skipping.")
         
-        for i in range(100):
-            cv2.imshow("Test", frames[i])
+       
 
 if __name__ == "__main__":
     main()
