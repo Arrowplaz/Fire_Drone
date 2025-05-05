@@ -6,7 +6,7 @@ from darwin.client import Client
 # from config import V7_KEY
 
 # Set your folder paths
-video_folder = "../.darwin"
+video_folder = "../.darwin/datasets/honors/eos/images"
 annotations_folder = "~/"
 
 def load_annotations(annotation_file):
