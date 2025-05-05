@@ -118,6 +118,7 @@ def preprocess(video_path, output_path='output.mp4'):
 def main():
 
     # If data needs to be pulled
+    V7_KEY = V7_KEY = "Wg78nME.WAvo-Sp-C7yriT1csJEg-f6nwhr57A8u"
     client = Client.from_api_key(V7_KEY)
     dataset = client.get_remote_dataset('eos')
     release = dataset.get_release()
