@@ -87,15 +87,15 @@ def preprocess(video_path, annotation_path, output_path='output.mp4'):
 # === Main execution with optional data pull ===
 def main():
     # === Optional: Pull data from V7 ===
-    V7_KEY = "Wg78nME.WAvo-Sp-C7yriT1csJEg-f6nwhr57A8u"
-    client = Client.from_api_key(V7_KEY)
-    dataset = client.get_remote_dataset('eos')
-    release = dataset.get_release(name="test-2")
+    # V7_KEY = "Wg78nME.WAvo-Sp-C7yriT1csJEg-f6nwhr57A8u"
+    # client = Client.from_api_key(V7_KEY)
+    # dataset = client.get_remote_dataset('eos')
+    # release = dataset.get_release(name="test-2")
 
-    if release:
-        print("✅ Release found. Pulling annotations...")
-        dataset.pull(release=release)
-        print("✅ Annotations pulled successfully.")
+    # if release:
+    #     print("✅ Release found. Pulling annotations...")
+    #     dataset.pull(release=release)
+    #     print("✅ Annotations pulled successfully.")
 
     print("📂 Processing videos...")
     video_files = [f for f in os.listdir(video_folder) if f.endswith(('.mp4', '.mov', '.avi'))]
