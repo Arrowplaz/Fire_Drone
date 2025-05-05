@@ -130,7 +130,7 @@ def main():
     #     return
         
 
-
+    print(video_folder)
     video_files = [f for f in os.listdir(video_folder)]
   
 
