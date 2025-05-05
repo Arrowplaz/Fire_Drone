@@ -6,8 +6,8 @@ from darwin.client import Client
 # from config import V7_KEY
 
 # Set your folder paths
-video_folder = "/Users/anagireddygari/.darwin/datasets/honors/eos/images"
-annotations_folder = "/Users/anagireddygari/.darwin/datasets/honors/eos/releases/test/annotations"
+video_folder = "/Volumes/HOME/anagireddygari/.darwin/datasets/honors/eos/images"
+annotations_folder = "/Volumes/HOME/anagireddygari/.darwin/datasets/honors/eos/releases/test-2/annotations"
 
 def load_annotations(annotation_file):
     with open(annotation_file, 'r') as f:
@@ -118,16 +118,16 @@ def preprocess(video_path, output_path='output.mp4'):
 def main():
 
     # If data needs to be pulled
-    V7_KEY = V7_KEY = "Wg78nME.WAvo-Sp-C7yriT1csJEg-f6nwhr57A8u"
-    client = Client.from_api_key(V7_KEY)
-    dataset = client.get_remote_dataset('eos')
-    release = dataset.get_release()
+    # V7_KEY = V7_KEY = "Wg78nME.WAvo-Sp-C7yriT1csJEg-f6nwhr57A8u"
+    # client = Client.from_api_key(V7_KEY)
+    # dataset = client.get_remote_dataset('eos')
+    # release = dataset.get_release()
     
-    if release:
-        print("Release found. Pulling annotations...")
-        dataset.pull(release=release)
-        print("Annotations pulled successfully.")
-        return
+    # if release:
+    #     print("Release found. Pulling annotations...")
+    #     dataset.pull(release=release)
+    #     print("Annotations pulled successfully.")
+    #     return
         
 
 
