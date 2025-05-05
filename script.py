@@ -98,7 +98,7 @@ def main():
     #     print("✅ Annotations pulled successfully.")
 
     print("📂 Processing videos...")
-    video_files = [f for f in os.listdir(video_folder) if f.endswith(('.mp4', '.mov', '.avi'))]
+    video_files = [f for f in os.listdir(video_folder)]
 
     for video_file in video_files:
         video_name = os.path.splitext(video_file)[0]
