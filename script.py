@@ -84,7 +84,7 @@ def preprocess(video_path, output_path='output.mp4', show=False):
 
     # Set up video writer to save the background-subtracted video
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4 format
-    out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+    out = cv2.VideoWriter(final_video_path, fourcc, fps, (frame_width, frame_height))
 
     frame_idx = 0
     while True:
@@ -118,7 +118,7 @@ def preprocess(video_path, output_path='output.mp4', show=False):
 
     # Release resources
 
-    print(f"Final Video Saved to {output_path}")
+    print(f"Final Video Saved to {final_video_path}")
     cap.release()
     out.release()
     cv2.destroyAllWindows()
