@@ -117,16 +117,17 @@ def preprocess(video_path, output_path='output.mp4'):
 
 def main():
 
-    #If data needs to be pulled
-     # client = Client.from_api_key(V7_KEY)
-     # dataset = client.get_remote_dataset('eos')
-     # release = dataset.get_release()
-     
-     # if release:
-     #     print("Release found. Pulling annotations...")
-     #     dataset.pull(release=release)
-     #     print("Annotations pulled successfully.")
-     #     return
+    # If data needs to be pulled
+    client = Client.from_api_key(V7_KEY)
+    dataset = client.get_remote_dataset('eos')
+    release = dataset.get_release()
+    
+    if release:
+        print("Release found. Pulling annotations...")
+        dataset.pull(release=release)
+        print("Annotations pulled successfully.")
+        return
+        
 
 
     video_files = [f for f in os.listdir(video_folder)]
