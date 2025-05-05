@@ -68,9 +68,12 @@ def analyze_roi_with_mask(frame, mask, annotation):
 
 def preprocess(video_path, output_path='output.mp4', show=False):
     # Open the video file
-
-    output_path = f"./output_videos/"
-    os.makedirs(output_path)
+    base_name = os.path.basename(video_path)
+    file_name, _ = os.path.splitext(base_name)
+    save_path = f"./output_videos/{file_name}"
+    os.makedirs(save_path, exist_ok=True)
+    final_video_path = os.path.join(save_path, f"{file_name}.avi")
+    
     cap = cv2.VideoCapture(video_path)
     fgbg = cv2.createBackgroundSubtractorKNN()
 
