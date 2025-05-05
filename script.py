@@ -67,16 +67,17 @@ def analyze_roi_with_mask(frame, mask, annotation):
 
 
 def preprocess(video_path, output_path='output.mp4', show=False):
+    # Open the video file
     cap = cv2.VideoCapture(video_path)
     fgbg = cv2.createBackgroundSubtractorKNN()
 
-    # Get frame width, height, and fps
+    # Get frame dimensions and frames per second
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
 
-    # Define the codec and create VideoWriter object for MP4
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # MP4 codec
+    # Set up video writer to save the background-subtracted video
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for .mp4 format
     out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
     frame_idx = 0
@@ -84,34 +85,39 @@ def preprocess(video_path, output_path='output.mp4', show=False):
         ret, frame = cap.read()
         if not ret:
             break
-        
-        
 
+        # Apply background subtraction
         fgmask = fgbg.apply(frame)
 
-        # Apply the mask to the original frame
-        fgmask_3ch = cv2.cvtColor(fgmask, cv2.COLOR_GRAY2BGR)  # Make it 3 channels
+        # Convert mask to 3-channel image and apply it to original frame
+        fgmask_3ch = cv2.cvtColor(fgmask, cv2.COLOR_GRAY2BGR)
         subtracted = cv2.bitwise_and(frame, fgmask_3ch)
 
-        print(frame_idx)
-        
-        # Show the background subtracted frame
+        print(f"Processing frame: {frame_idx}")
+
+        # Optionally display the frame
         if show:
             cv2.imshow('Background Subtracted', subtracted)
+            cv2.waitKey(1)  # Small delay to allow image display
 
-        # Save the subtracted frame
+        # Write the frame to output video
         out.write(subtracted)
 
+        # Break on 'q' or ESC key
         keyboard = cv2.waitKey(30)
-        frame_idx += 1
         if keyboard == ord('q') or keyboard == 27:
             break
 
-    # Release everything
+        frame_idx += 1
+
+    # Release resources
+
+    print(f"Final Video Saved to {output_path}")
     cap.release()
     out.release()
     cv2.destroyAllWindows()
-    return subtracted_frames
+
+    
 
 
 
