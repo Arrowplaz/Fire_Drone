@@ -37,18 +37,6 @@ def analyze_roi_with_mask(frame, mask, annotation):
     frame[y:y+h, x:x+w] = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
     return frame
 
-def process_one_frame(video_path, annotation_path):
-    import os
-import cv2
-import json
-import numpy as np
-from darwin.client import Client
-from config import V7_KEY
-
-# Set your folder paths
-video_folder = "/Users/anagireddygari/.darwin/datasets/honors/eos/images"
-annotations_folder = "/Users/anagireddygari/.darwin/datasets/honors/eos/releases/test/annotations"
-
 def load_annotations(annotation_file):
     with open(annotation_file, 'r') as f:
         data = json.load(f)
@@ -77,42 +65,60 @@ def analyze_roi_with_mask(frame, mask, annotation):
     frame[y:y+h, x:x+w] = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
     return frame
 
-def preprocess(video_path, annotation_path):
+
+def preprocess(video_path, output_path='output.mp4'):
     cap = cv2.VideoCapture(video_path)
     fgbg = cv2.createBackgroundSubtractorKNN()
 
+    # Get frame width, height, and fps
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    # Define the codec and create VideoWriter object for MP4
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # MP4 codec
+    out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+
     frame_idx = 0
     while True:
-        if frame_idx < 900:
-            frame_idx += 1
-            continue
-        
         ret, frame = cap.read()
-        if frame is None:
+        if not ret:
             break
-            
         
+        
+
         fgmask = fgbg.apply(frame)
-        # cv2.rectangle(frame, (10, 2), (100,20), (255,255,255), -1)
-        # cv.putText(frame, str(capture.get(cv.CAP_PROP_POS_FRAMES)), (15, 15),
-        #     cv.FONT_HERSHEY_SIMPLEX, 0.5 , (0,0,0))
+
+        # Apply the mask to the original frame
+        fgmask_3ch = cv2.cvtColor(fgmask, cv2.COLOR_GRAY2BGR)  # Make it 3 channels
+        subtracted = cv2.bitwise_and(frame, fgmask_3ch)
 
         print(frame_idx)
         
-        cv2.imshow('Frame', frame)
-        cv2.imshow('FG Mask', fgmask)
+        # Show the background subtracted frame
+        cv2.imshow('Background Subtracted', subtracted)
 
+        # Save the subtracted frame
+        out.write(subtracted)
 
         keyboard = cv2.waitKey(30)
         frame_idx += 1
-        if keyboard == 'q' or keyboard == 27:
+        if keyboard == ord('q') or keyboard == 27:
             break
+
+    # Release everything
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
 
 
 
 
 def main():
-    video_files = [f for f in os.listdir(video_folder) if f.endswith('GX010159.MP4')]
+
+
+    video_files = [f for f in os.listdir(video_folder)]
   
 
     for video_file in video_files:
