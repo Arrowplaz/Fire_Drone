@@ -3,7 +3,7 @@ import cv2
 import json
 import numpy as np
 from darwin.client import Client
-from config import V7_KEY
+# from config import V7_KEY
 
 # Set your folder paths
 video_folder = "/Users/anagireddygari/.darwin/datasets/honors/eos/images"
